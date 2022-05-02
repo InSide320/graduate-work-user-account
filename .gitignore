@@ -1,0 +1,10 @@
+# Project exclude paths
+/.gradle/
+/build/
+/UserAccount/build/
+/UserAccount/domain/build/
+/UserAccount/domain/build/classes/java/main/
+/UserAccount/persistence/build/
+/UserAccount/persistence/build/classes/java/main/
+/UserAccount/web-app/build/
+/UserAccount/web-app/build/classes/java/main/

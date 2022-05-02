@@ -1,0 +1,9 @@
+rootProject.name = 'graduate-work-user-account'
+include 'UserAccount'
+include 'UserAccount:domain'
+findProject(':UserAccount:domain')?.name = 'domain'
+include 'UserAccount:persistence'
+findProject(':UserAccount:persistence')?.name = 'persistence'
+include 'UserAccount:web-app'
+findProject(':UserAccount:web-app')?.name = 'web-app'
+

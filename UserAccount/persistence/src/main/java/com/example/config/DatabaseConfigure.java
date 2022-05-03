@@ -28,6 +28,7 @@ public class DatabaseConfigure {
         final HikariConfig hikariConfig = new HikariConfig(String.valueOf(new HikariCpConfig().setFileProperties()));
         hikariConfig.setUsername(username);
         hikariConfig.setPassword(password);
+        hikariConfig.setDataSourceClassName(className);
 
         return new HikariDataSource(hikariConfig);
     }

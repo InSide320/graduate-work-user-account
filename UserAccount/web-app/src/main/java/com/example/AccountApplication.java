@@ -12,7 +12,7 @@ public class AccountApplication {
 
         Flyway flyway = applicationContext.getBean(Flyway.class);
         flyway.migrate();
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate 
                 = (NamedParameterJdbcTemplate) applicationContext.getBean("jdbcTemplate");
 
     }

@@ -1,15 +1,14 @@
 package com.example.user.credentials.generate;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
-@Entity
+@Component
 public class GenerateCredentialsEmail {
 
     private GenerateCredentialsEmail() {

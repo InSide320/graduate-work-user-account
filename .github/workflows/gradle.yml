@@ -12,7 +12,7 @@ concurrency:
   
 on:
   push:
-    branches: [ master ]
+    branches: [ other ]
   pull_request:
     branches: [ other ]
 

@@ -12,9 +12,9 @@ concurrency:
   
 on:
   push:
-    branches: [ other ]
+    branches: [ master ]
   pull_request:
-    branches: [ other ]
+    branches: [ master ]
 
 permissions:
   contents: read

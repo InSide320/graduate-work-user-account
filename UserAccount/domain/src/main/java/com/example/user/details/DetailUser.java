@@ -1,15 +1,15 @@
 package com.example.user.details;
 
 import com.example.user.details.type.RoleType;
-import org.springframework.stereotype.Component;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Component
-public class DetailsUser {
+@Entity
+public class DetailUser {
 
     @Id
     @GeneratedValue
@@ -20,7 +20,7 @@ public class DetailsUser {
     private String groupUk;
     private String groupTransliteration;
 
-    public DetailsUser(
+    public DetailUser(
             Integer id,
             RoleType roleType,
             LocalDate dateEnter, LocalDate releaseDate,
@@ -97,7 +97,7 @@ public class DetailsUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DetailsUser that = (DetailsUser) o;
+        DetailUser that = (DetailUser) o;
         return Objects.equals(id, that.id)
                 && roleType == that.roleType && Objects.equals(dateEnter, that.dateEnter)
                 && Objects.equals(releaseDate, that.releaseDate)

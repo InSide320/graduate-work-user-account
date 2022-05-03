@@ -1,17 +1,16 @@
 package com.example.user;
 
-import org.springframework.stereotype.Component;
-
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-@Component
+@Entity
 public class UserPersonalData implements Serializable {
 
     @Id
     @GeneratedValue
-    private  Integer id;
+    private Integer id;
 
     private String lastNameTransliteration;
     private String firstNameTransliteration;
@@ -26,8 +25,7 @@ public class UserPersonalData implements Serializable {
             Integer id, String lastNameTransliteration,
             String firstNameTransliteration,
             String lastNameUk, String firstNameUk,
-            String midlNameUk,
-            String authEmail, String authPassword
+            String midlNameUk
     ) {
         this.id = id;
 

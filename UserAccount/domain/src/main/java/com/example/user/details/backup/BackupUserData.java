@@ -1,13 +1,11 @@
 package com.example.user.details.backup;
 
-import org.springframework.stereotype.Component;
-
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.Objects;
 
-@Component
+@Entity
 public class BackupUserData {
 
     @Id

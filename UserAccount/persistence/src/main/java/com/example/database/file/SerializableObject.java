@@ -27,17 +27,18 @@ public class SerializableObject {
 
     static UserPersonalService userPersonalService = UserPersonalService.getInstance();
 
-
     public static void getFileValues() {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(createFile))) {
+
             userPersonalService = new UserPersonalService((List<UserPersonalData>) inputStream.readObject());
+
             for (int i = 0; i < userPersonalService.userPersonalDataList().size(); i++) {
                 logger.log(Level.INFO, String.valueOf(userPersonalService.userPersonalDataList().get(i)));
             }
+
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static void creatFileInResources() throws IOException {

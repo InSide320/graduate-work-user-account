@@ -1,2 +1,2 @@
 # graduate-work-user-account
-![example branch parameter](https://github.com/github/docs/actions/workflows/gradle.yml/badge.svg?branch=other)
+![example branch parameter](github.com/InSide320/graduate-work-user-account/actions/workflows/gradle.yml/badge.svg?branch=other)

@@ -1,7 +1,6 @@
 package com.example;
 
 import com.example.config.SpringApplicationConfig;
-import com.example.user.UserPersonalData;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

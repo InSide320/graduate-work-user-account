@@ -2,42 +2,26 @@ package com.example.user;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-public record UserPersonalService(List<UserPersonalData> userPersonalDataList) {
-    private static UserPersonalService instance;
-
-    public static UserPersonalService getInstance() {
-        if (instance == null) {
-            instance = new UserPersonalService(new ArrayList<>());
-        }
-        return instance;
-    }
+public record UserPersonalService(UserPersonalDataRepository userPersonalDataRepository) {
 
     private static final Logger logger = Logger.getGlobal();
 
-    public Boolean addNewUserByList(UserPersonalData userPersonalData) {
-        return userPersonalDataList().add(userPersonalData);
+    public UserPersonalData addNewUserByList(UserPersonalData userPersonalData) {
+        return userPersonalDataRepository.save(userPersonalData);
     }
 
-    private void getIdUser() {
-        for (UserPersonalData userPersonalData : userPersonalDataList()) {
-            String lineIdUsers = userPersonalData.getId()
-                    + ") "
-                    + userPersonalData.getLastNameTransliteration();
-
-            logger.log(Level.INFO, lineIdUsers);
-        }
+    public List<UserPersonalData> findAll() {
+        return userPersonalDataRepository.findAll();
     }
 
-    public UserPersonalData getUserById(int id) throws IllegalArgumentException {
-        getIdUser();
-        if (id <= userPersonalDataList().size() && id > 0)
-            return userPersonalDataList().get(id);
+
+    public UserPersonalData getUserById(long id) throws IllegalArgumentException {
+        if (id <= userPersonalDataRepository.findAll().size() && id > 0)
+            return userPersonalDataRepository.getById(id);
         else
             throw new IllegalArgumentException("id cannot be larger");
     }

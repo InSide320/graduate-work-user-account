@@ -1,13 +1,13 @@
 package com.example.user.credentials;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
+@Table(name = "credential_users")
 public class CredentialUser {
 
     @Id
@@ -15,36 +15,6 @@ public class CredentialUser {
     private Integer id;
     private String authEmail;
     private String authPassword;
-
-    public CredentialUser(Integer id, String authEmail, String authPassword) {
-        this.id = id;
-        this.authEmail = authEmail;
-        this.authPassword = authPassword;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAuthEmail() {
-        return authEmail;
-    }
-
-    public void setAuthEmail(String authEmail) {
-        this.authEmail = authEmail;
-    }
-
-    public String getAuthPassword() {
-        return authPassword;
-    }
-
-    public void setAuthPassword(String authPassword) {
-        this.authPassword = authPassword;
-    }
 
     @Override
     public boolean equals(Object o) {

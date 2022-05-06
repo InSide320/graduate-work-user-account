@@ -3,9 +3,11 @@ package com.example.user.details.backup;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
+@Table(name = "backup_users_data")
 public class BackupUserData {
 
     @Id
@@ -13,36 +15,6 @@ public class BackupUserData {
     private Integer id;
     private String phoneNumber;
     private String emailBackup;
-
-    public BackupUserData(Integer id, String phoneNumber, String emailBackup) {
-        this.id = id;
-        this.phoneNumber = phoneNumber;
-        this.emailBackup = emailBackup;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmailBackup() {
-        return emailBackup;
-    }
-
-    public void setEmailBackup(String emailBackup) {
-        this.emailBackup = emailBackup;
-    }
 
     @Override
     public boolean equals(Object o) {

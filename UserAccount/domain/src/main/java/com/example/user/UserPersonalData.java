@@ -1,100 +1,59 @@
 package com.example.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.io.Serializable;
+import com.example.user.credentials.CredentialUser;
+import com.example.user.details.DetailUser;
+import lombok.*;
 
+import javax.persistence.*;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users_personal_data")
 @Entity
-public class UserPersonalData implements Serializable {
+public class UserPersonalData {
 
     @Id
+    @Setter(AccessLevel.PROTECTED)
     @GeneratedValue
-    private Integer id;
+    @Column(name = "id")
+    private Long id;
 
+    @Column(name = "last_name_transliteration")
     private String lastNameTransliteration;
+
+    @Column(name = "first_name_transliteration")
     private String firstNameTransliteration;
-    private String lastNameUk;
-    private String firstNameUk;
-    private String midlNameUk;
 
-    public UserPersonalData() {
-    }
+    @Column(name = "last_name")
+    private String lastNameCyrillic;
 
-    public UserPersonalData(
-            Integer id, String lastNameTransliteration,
-            String firstNameTransliteration,
-            String lastNameUk, String firstNameUk,
-            String midlNameUk
-    ) {
-        this.id = id;
+    @Column(name = "first_name")
+    private String firstNameCyrillic;
 
-        this.lastNameTransliteration = lastNameTransliteration;
-        this.firstNameTransliteration = firstNameTransliteration;
+    @Column(name = "midl_name")
+    private String midlNameCyrillic;
 
-        this.lastNameUk = lastNameUk;
-        this.firstNameUk = firstNameUk;
-        this.midlNameUk = midlNameUk;
-    }
+    @Transient
+    private DetailUser detailUser;
+    @Transient
+    private CredentialUser credentialUser;
+
 
     @Override
     public String toString() {
-        return "User{"
+        return "UserPersonalData{"
                 + "id=" + id
-                + ", lastNameEng='" + lastNameTransliteration + '\''
-                + ", firstNameEng='" + firstNameTransliteration + '\''
-                + ", lastNameUk='" + lastNameUk + '\''
-                + ", firstNameUk='" + firstNameUk + '\''
-                + ", midlNameUk='" + midlNameUk + '\''
+                + ", lastNameTransliteration='" + lastNameTransliteration + '\''
+                + ", firstNameTransliteration='"
+                + firstNameTransliteration + '\''
+                + ", lastNameCyrillic='" + lastNameCyrillic + '\''
+                + ", firstNameCyrillic='" + firstNameCyrillic + '\''
+                + ", midlNameCyrillic='" + midlNameCyrillic + '\''
+                + ", detailUser=" + detailUser
+                + ", credentialUser=" + credentialUser
                 + '}';
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLastNameTransliteration() {
-        return lastNameTransliteration;
-    }
-
-    public void setLastNameTransliteration(String lastNameTransliteration) {
-        this.lastNameTransliteration = lastNameTransliteration;
-    }
-
-    public String getFirstNameTransliteration() {
-        return firstNameTransliteration;
-    }
-
-    public void setFirstNameTransliteration(String firstNameTransliteration) {
-        this.firstNameTransliteration = firstNameTransliteration;
-    }
-
-    public String getLastNameUk() {
-        return lastNameUk;
-    }
-
-    public void setLastNameUk(String lastNameUk) {
-        this.lastNameUk = lastNameUk;
-    }
-
-    public String getFirstNameUk() {
-        return firstNameUk;
-    }
-
-    public void setFirstNameUk(String firstNameUk) {
-        this.firstNameUk = firstNameUk;
-    }
-
-    public String getMidlNameUk() {
-        return midlNameUk;
-    }
-
-    public void setMidlNameUk(String midlNameUk) {
-        this.midlNameUk = midlNameUk;
-    }
-
 }

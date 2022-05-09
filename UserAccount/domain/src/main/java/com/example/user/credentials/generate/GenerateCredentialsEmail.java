@@ -1,5 +1,7 @@
 package com.example.user.credentials.generate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +13,8 @@ import java.util.Random;
 @Component
 public class GenerateCredentialsEmail {
 
+    private static final Logger logger = LoggerFactory.getLogger(GenerateCredentialsEmail.class);
+
     private GenerateCredentialsEmail() {
     }
 
@@ -20,7 +24,7 @@ public class GenerateCredentialsEmail {
         try {
             random = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
         return (lastName + "_"

@@ -18,6 +18,8 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:8.5.10'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
 
+    testImplementation 'com.h2database:h2:2.1.212'
+
     implementation project(':UserAccount:domain')
     implementation project(':UserAccount:persistence')
 

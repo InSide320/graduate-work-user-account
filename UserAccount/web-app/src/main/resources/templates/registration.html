@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Registration</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/registration}" th:object="${registrationForm}" method="post">
+        <table method="post">
+            <tr><td><h2>User personal data</h2></td></tr>
+            <tr>
+                <td>First name transliteration:</td>
+                <td><label>
+                    <input type="text" th:field="*{firstNameTransliteration}">
+                </label></td>
+                <td>Last name transliteration:</td>
+                <td><label>
+                    <input type="text" th:field="*{lastNameTransliteration}">
+                </label></td>
+
+                <td>Last name cyrillic:</td>
+                <td><label>
+                    <input type="text" th:field="*{lastNameCyrillic}">
+                </label></td>
+
+                <td>First name cyrillic:</td>
+                <td><label>
+                    <input type="text" th:field="*{firstNameCyrillic}">
+                </label></td>
+
+                <td>Midl name cyrillic:</td>
+                <td><label>
+                    <input type="text" th:field="*{midlNameCyrillic}">
+                </label></td>
+
+            <tr>
+                <td> <h3>Detail user entity:</h3> </td>
+            </tr>
+            <tr>
+                <td><label>
+                    <input type="text" th:field="*{detailUserEntity.roleType}">
+                </label></td>
+                <td><label>
+                    <input type="text" th:field="*{detailUserEntity.groupCyrillic}">
+                </label></td>
+                <td><label>
+                    <input type="text" th:field="*{detailUserEntity.groupTransliteration}">
+                </label></td>
+                <td><label>
+                    <input type="date" th:field="*{detailUserEntity.dateEnter}">
+                </label></td>
+                <td><label>
+                    <input type="date" th:field="*{detailUserEntity.dateRelease}">
+                </label></td>
+            <tr>
+                <td> <h4>Backup user data</h4> </td>
+                <td><label>
+                    <input type="text" th:field="*{detailUserEntity.backupUserDataEntity.phoneNumber}">
+                </label></td>
+                <td><label>
+                    <input type="text" th:field="*{detailUserEntity.backupUserDataEntity.emailBackup}">
+                </label></td>
+
+            </tr>
+
+
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Registration</button>
+                </td>
+            </tr>
+        </table>
+        <h1 th:text="${registrationForm}"></h1>
+    </form>
+</div>
+</body>
+</html>

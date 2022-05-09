@@ -22,7 +22,7 @@ public class GenerateCredentialsPassword {
 
     private static final SecureRandom random = new SecureRandom();
 
-    public static Object generateStrongPassword() throws IllegalArgumentException {
+    public static String generateStrongPassword() throws IllegalArgumentException {
 
         StringBuilder result = new StringBuilder(PASSWORD_LENGTH);
 
@@ -63,7 +63,7 @@ public class GenerateCredentialsPassword {
         return result.toString();
     }
 
-    public static Object shuffleObject(String input) {
+    public static String shuffleObject(String input) {
         List<String> result = Arrays.asList(input.split(""));
         Collections.shuffle(result);
         Collections.shuffle(result);

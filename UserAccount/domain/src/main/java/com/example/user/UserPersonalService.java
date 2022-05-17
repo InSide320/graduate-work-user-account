@@ -19,6 +19,11 @@ public record UserPersonalService(
         userPersonalDataRepository.saveAndFlush(userPersonalDataEntity);
     }
 
+    public List<UserPersonalDataEntity> getInformationByGroup(String group) {
+        return userPersonalDataRepository
+                .getUserPersonalDataEntitiesByDetailUserEntityEqualsGroup(group);
+    }
+
     public UserPersonalDataEntity save(UserPersonalDataEntity userPersonalDataEntity) {
         return userPersonalDataRepository.save(userPersonalDataEntity);
     }
@@ -54,14 +59,5 @@ public record UserPersonalService(
         if (!Optional.of(userPersonalDataRepository.findAll().size() >= id).orElse(id > 0)) {
             throw new NotFoundException("ID cannot be larger or less");
         }
-    }
-
-    @Override
-    public String toString() {
-        return "UserPersonalService{" + "\n"
-                + "userPersonalDataRepository=" + userPersonalDataRepository + "\n"
-                + ", detailUserRepository=" + detailUserRepository + "\n"
-                + ", credentialUserRepository=" + credentialUserRepository + "\n"
-                + '}';
     }
 }

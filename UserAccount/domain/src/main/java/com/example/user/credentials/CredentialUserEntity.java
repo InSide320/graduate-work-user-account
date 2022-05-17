@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "credential_users")
 public class CredentialUserEntity {
@@ -17,8 +16,6 @@ public class CredentialUserEntity {
     }
 
     @Id
-    @Setter(AccessLevel.PROTECTED)
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @ToString.Exclude

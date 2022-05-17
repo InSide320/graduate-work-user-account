@@ -1,5 +1,6 @@
-package com.example.controllers;
+package com.example.controllers.mvc.registration;
 
+import com.example.controllers.PersonalInformationController;
 import com.example.user.UserPersonalDataEntity;
 import com.example.user.UserPersonalService;
 import com.example.user.credentials.CredentialUserEntity;
@@ -9,6 +10,8 @@ import com.example.user.credentials.generate.GenerateCredentialsPassword;
 import com.example.user.details.DetailUserEntity;
 import com.example.user.details.DetailsUserService;
 import com.example.user.details.backup.BackupUserDataService;
+import com.example.user.details.introductory.EstimatesEntity;
+import com.example.user.details.introductory.EstimatesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +26,8 @@ public record RegistrationController(
         UserPersonalService userPersonalService,
         DetailsUserService detailsUserService,
         BackupUserDataService backupUserDataService,
-        CredentialsUserService credentialsUserService
+        CredentialsUserService credentialsUserService,
+        EstimatesService estimatesService
 ) {
     @GetMapping
     public String viewUserPersonalData(Model model) {
@@ -53,8 +57,8 @@ public record RegistrationController(
                                                 .getGroupTransliteration(),
                                         backupUserDataService.save(
                                                 userPersonalData.getDetailUserEntity()
-                                                        .getBackupUserDataEntity()
-                                        )
+                                                        .getBackupUserDataEntity()),
+                                        estimatesService.save(new EstimatesEntity())
                                 )
                         ),
                         credentialsUserService.save(

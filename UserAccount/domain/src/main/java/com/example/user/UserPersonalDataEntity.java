@@ -10,27 +10,30 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "users_personal_data")
 @Entity
 public class UserPersonalDataEntity {
 
-    @Override
-    public String toString() {
-        return "UserPersonalDataEntity{"
-                + "id=" + id
-                + ", lastNameTransliteration='" + lastNameTransliteration + '\''
-                + ", firstNameTransliteration='" + firstNameTransliteration + '\'' + "\n"
-                + ", lastNameCyrillic='" + lastNameCyrillic + '\''
-                + ", firstNameCyrillic='" + firstNameCyrillic + '\''
-                + ", midlNameCyrillic='" + midlNameCyrillic + '\'' + "\n"
-                + ", detailUserEntity=" + detailUserEntity + "\n"
-                + ", credentialUserEntity=" + credentialUserEntity + "\n"
-                + '}';
+    public UserPersonalDataEntity(
+            Long id, String lastNameTransliteration,
+            String firstNameTransliteration,
+            String lastNameCyrillic,
+            String firstNameCyrillic,
+            String midlNameCyrillic,
+            DetailUserEntity detailUserEntity,
+            CredentialUserEntity credentialUserEntity) {
+        this.id = id;
+        this.lastNameTransliteration = lastNameTransliteration;
+        this.firstNameTransliteration = firstNameTransliteration;
+        this.lastNameCyrillic = lastNameCyrillic;
+        this.firstNameCyrillic = firstNameCyrillic;
+        this.midlNameCyrillic = midlNameCyrillic;
+        this.detailUserEntity = detailUserEntity;
+        this.credentialUserEntity = credentialUserEntity;
     }
 
     @Id
-    @Setter(AccessLevel.PROTECTED)
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -64,4 +67,18 @@ public class UserPersonalDataEntity {
             joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
     private CredentialUserEntity credentialUserEntity;
+
+    @Override
+    public String toString() {
+        return "UserPersonalDataEntity{"
+                + "id=" + id
+                + ", lastNameTransliteration='" + lastNameTransliteration + '\''
+                + ", firstNameTransliteration='" + firstNameTransliteration + '\'' + "\n"
+                + ", lastNameCyrillic='" + lastNameCyrillic + '\''
+                + ", firstNameCyrillic='" + firstNameCyrillic + '\''
+                + ", midlNameCyrillic='" + midlNameCyrillic + '\'' + "\n"
+                + ", detailUserEntity=" + detailUserEntity + "\n"
+                + '}';
+    }
+
 }

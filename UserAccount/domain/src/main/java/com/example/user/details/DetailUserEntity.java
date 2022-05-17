@@ -1,6 +1,7 @@
 package com.example.user.details;
 
 import com.example.user.details.backup.BackupUserDataEntity;
+import com.example.user.details.introductory.EstimatesEntity;
 import com.example.user.details.type.RoleType;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,13 +23,15 @@ public class DetailUserEntity {
                             LocalDate dateRelease,
                             String groupCyrillic,
                             String groupTransliteration,
-                            BackupUserDataEntity backupUserDataEntity) {
+                            BackupUserDataEntity backupUserDataEntity,
+                            EstimatesEntity estimates) {
         this.roleType = roleType;
         this.dateEnter = dateEnter;
         this.dateRelease = dateRelease;
         this.groupCyrillic = groupCyrillic;
         this.groupTransliteration = groupTransliteration;
         this.backupUserDataEntity = backupUserDataEntity;
+        this.estimatesEntity = estimates;
     }
 
     @Id
@@ -63,4 +66,10 @@ public class DetailUserEntity {
     )
     private BackupUserDataEntity backupUserDataEntity;
 
+    @ToString.Exclude
+    @OneToOne
+    @JoinTable(name = "student_entrance_scores",
+            joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
+    private EstimatesEntity estimatesEntity;
 }

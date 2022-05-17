@@ -1,24 +1,28 @@
 package com.example.user.credentials.generate;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class GenerateCredentialsPassword {
-    private static final String CHAR_LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
-    private static final String CHAR_UPPERCASE = CHAR_LOWERCASE.toUpperCase();
-    private static final String DIGIT = "0123456789";
+    private static final String CHARS_LOWERCASE
+            = RandomStringUtils.randomAlphabetic(20).toLowerCase(Locale.ROOT);
+
+    private static final String CHARS_UPPERCASE = CHARS_LOWERCASE.toUpperCase();
+    private static final String DIGIT = RandomStringUtils.randomNumeric(9);
     private static final String OTHER_PUNCTUATION = "!@#&?*()";
-    private static final String OTHER_SYMBOL = "$^+=<>%_";
-    private static final String OTHER_SPECIAL = OTHER_PUNCTUATION + OTHER_SYMBOL;
+    private static final String OTHER_SYMBOLS = "$^+=<>%_";
+    private static final String OTHER_SPECIAL = OTHER_PUNCTUATION + OTHER_SYMBOLS;
     private static final int PASSWORD_LENGTH = 20;
 
     private static final String PASSWORD_ALLOW =
-            CHAR_LOWERCASE + CHAR_UPPERCASE + DIGIT + OTHER_SPECIAL;
+            CHARS_LOWERCASE + CHARS_UPPERCASE + DIGIT + OTHER_SPECIAL;
 
     private static final SecureRandom random = new SecureRandom();
 
@@ -26,10 +30,10 @@ public class GenerateCredentialsPassword {
 
         StringBuilder result = new StringBuilder(PASSWORD_LENGTH);
 
-        String strLowerCase = generateRandomString(CHAR_LOWERCASE, 2);
+        String strLowerCase = generateRandomString(CHARS_LOWERCASE, 2);
         result.append(strLowerCase);
 
-        String strUppercaseCase = generateRandomString(CHAR_UPPERCASE, 2);
+        String strUppercaseCase = generateRandomString(CHARS_UPPERCASE, 2);
         result.append(strUppercaseCase);
 
         String strDigit = generateRandomString(DIGIT, 2);

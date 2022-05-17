@@ -1,6 +1,5 @@
 package com.example.user;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,18 +9,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserPersonalDataRepository extends JpaRepository<UserPersonalData, Long> {
+public interface UserPersonalDataRepository extends JpaRepository<UserPersonalDataEntity, Long> {
 
-    <S extends UserPersonalData> S save(S entity);
+    @Query("select upd "
+            + "from UserPersonalDataEntity upd "
+            + "where upd.lastNameTransliteration=:lastNameTransliteration")
+    <S extends UserPersonalDataEntity> Optional<S> findByLastNameTransliteration(
+            @Param("lastNameTransliteration") String lastNameTransliteration);
 
-    <S extends UserPersonalData> List<S> findAll(Example<S> example);
-
-    List<UserPersonalData> findAll();
-
-    Optional<UserPersonalData> findById(Long aLong);
-
-    @Query("select upd from UserPersonalData upd where upd.id=:id")
-    UserPersonalData getById(@Param("id") Long aLong);
-
-    void delete(UserPersonalData entity);
+    @Query("select upd "
+            + "from UserPersonalDataEntity as upd "
+            + "inner join DetailUserEntity as dt on upd.id=dt.id "
+            + "where dt.groupTransliteration=:groupTransliteration")
+    List<UserPersonalDataEntity>
+    getUserPersonalDataEntitiesByDetailUserEntityEqualsGroup(
+            @Param("groupTransliteration") String groupTransliteration
+    );
 }

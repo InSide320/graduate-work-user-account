@@ -13,10 +13,13 @@ dependencies {
 
     implementation 'org.postgresql:postgresql:42.3.4'
     implementation 'com.zaxxer:HikariCP:5.0.1'
-    implementation 'org.flywaydb:flyway-core:8.5.9'
+    implementation 'org.flywaydb:flyway-core:8.5.10'
 
     implementation 'org.springframework:spring-jdbc:5.3.19'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
+
+    testImplementation 'com.h2database:h2:2.1.212'
 
     implementation project(':UserAccount:domain')
 }

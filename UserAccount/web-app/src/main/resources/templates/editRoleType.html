@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="eng">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous">
+    <title>Change data</title>
+</head>
+<body>
+<div>
+    <header class="p-3 bg-dark text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/personal-data" class="nav-link px-2 text-white">Personal data</a></li>
+                    <li><a href="/manipulation" class="nav-link px-2 text-white">Get information</a></li>
+                    <li><a href="/change-data" class="nav-link px-2 text-secondary">Сhange data</a></li>
+                    <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
+                    <li><a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                </ul>
+
+                <div class="text-end">
+                    <a href="/logout">
+                        <button type="button" class="btn btn-warning">Log-out</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <form th:action="@{/change-data/role-type}" th:method="PATCH" sec:authorize="hasAuthority('ADMIN')">
+
+        <input type="text" name="email" th:value="${credentialUser.authEmail}" readonly>
+
+        <div th:switch="${credentialUser.roleType.name()}">
+            <div th:case="'STUDENT'" sec:authorize="hasAuthority('ADMIN')">
+
+                <label th:for="${credentialUser.roleType.STUDENT}" sec:authorize="hasAuthority('ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.STUDENT}" name="role-type"
+                           value="STUDENT" checked>
+                    STUDENT
+                </label>
+
+                <label sec:authorize="hasAuthority('ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.TEACHER}" name="role-type"
+                           value="TEACHER">
+                    TEACHER
+                </label>
+
+                <label th:for="${credentialUser.roleType.ADMIN}" sec:authorize="hasAuthority('SUPER_ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.ADMIN}" name="role-type" value="ADMIN">
+                    ADMIN
+                </label>
+
+                <label th:for="${credentialUser.roleType.SUPER_ADMIN}" sec:authorize="hasAuthority('SUPER_ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.SUPER_ADMIN}" name="role-type"
+                           value="SUPER_ADMIN">
+                    SUPER_ADMIN
+                </label>
+
+            </div>
+
+            <div th:case="'TEACHER'" sec:authorize="hasAuthority('ADMIN')">
+
+                <label th:for="${credentialUser.roleType.STUDENT}"sec:authorize="hasAuthority('ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.STUDENT}" name="role-type"
+                           value="STUDENT" >
+                    STUDENT
+                </label>
+
+                <label th:for="${credentialUser.roleType.TEACHER}"sec:authorize="hasAuthority('ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.TEACHER}" name="role-type"
+                           value="TEACHER" checked >
+                    TEACHER
+                </label>
+
+                <label th:for="${credentialUser.roleType.ADMIN}"sec:authorize="hasAuthority('SUPER_ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.ADMIN}" name="role-type" value="ADMIN"
+                           >
+                    ADMIN
+                </label>
+
+                <label th:for="${credentialUser.roleType.SUPER_ADMIN}"sec:authorize="hasAuthority('SUPER_ADMIN')">
+                    <input type="radio" th:id="${credentialUser.roleType.SUPER_ADMIN}" name="role-type"
+                           value="SUPER_ADMIN" >
+                    SUPER_ADMIN
+                </label>
+
+            </div>
+
+            <div th:case="'ADMIN'" sec:authorize="hasAuthority('SUPER_ADMIN')">
+
+                <label th:for="${credentialUser.roleType.STUDENT}">
+                    <input type="radio" th:id="${credentialUser.roleType.STUDENT}" name="role-type"
+                           value="STUDENT">
+                    STUDENT
+                </label>
+
+                <label th:for="${credentialUser.roleType.TEACHER}">
+                    <input type="radio" th:id="${credentialUser.roleType.TEACHER}" name="role-type"
+                           value="TEACHER">
+                    TEACHER
+                </label>
+
+                <label th:for="${credentialUser.roleType.ADMIN}">
+                    <input type="radio" th:id="${credentialUser.roleType.ADMIN}" name="role-type" value="ADMIN"
+                           checked>
+                    ADMIN
+                </label>
+
+                <label th:for="${credentialUser.roleType.SUPER_ADMIN}">
+                    <input type="radio" th:id="${credentialUser.roleType.SUPER_ADMIN}" name="role-type"
+                           value="SUPER_ADMIN">
+                    SUPER_ADMIN
+                </label>
+
+            </div>
+
+            <div th:case="'SUPER_ADMIN'" sec:authorize="hasAuthority('SUPER_ADMIN')">
+
+                <label th:for="${credentialUser.roleType.STUDENT}">
+                    <input type="radio" th:id="${credentialUser.roleType.STUDENT}" name="role-type"
+                           value="STUDENT">
+                    STUDENT
+                </label>
+
+                <label th:for="${credentialUser.roleType.TEACHER}">
+                    <input type="radio" th:id="${credentialUser.roleType.TEACHER}" name="role-type"
+                           value="TEACHER">
+                    TEACHER
+                </label>
+
+                <label th:for="${credentialUser.roleType.ADMIN}">
+                    <input type="radio" th:id="${credentialUser.roleType.ADMIN}" name="role-type" value="ADMIN">
+                    ADMIN
+                </label>
+
+                <label th:for="${credentialUser.roleType.SUPER_ADMIN}">
+                    <input type="radio" th:id="${credentialUser.roleType.SUPER_ADMIN}" name="role-type"
+                           value="SUPER_ADMIN" checked>
+                    SUPER_ADMIN
+                </label>
+            </div>
+
+        </div>
+
+
+        <input type="hidden" th:value="${credentialUser.id}" name="userId">
+        <button type="submit">Save</button>
+    </form>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                    <svg class="bi" width="30" height="24">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                <span class="text-muted">© 2022 Cherkasy Polytechnical College, Inc</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                <li class="ms-3"><a class="text-muted" href="#">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#instagram"></use>
+                    </svg>
+                </a></li>
+
+                <li class="ms-3"><a class="text-muted" href="https://www.facebook.com/chpt.edu.ua/">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#facebook"><img src="style/image/facebook.png" alt="Facebook"></use>
+                    </svg>
+                </a></li>
+
+            </ul>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

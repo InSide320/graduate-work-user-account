@@ -41,19 +41,7 @@ public record EstimatesService(EstimatesRepository estimatesRepository) {
         return estimatesRepository.getAvgSubject(id);
     }
 
-    public List<EstimatesEntity> getAllEstimatesByGroup(String group) {
-        return null;
-    }
-
-    public EstimatesEntity getAvgEstimatesByUser() {
-        return null;
-    }
-
-    public EstimatesEntity getMaxEstimatesByUser() {
-        return null;
-    }
-
-    public EstimatesEntity getMinEstimatesByUser() {
-        return null;
+    public EstimatesEntity saveAndFlush(EstimatesEntity estimatesEntity) {
+        return estimatesRepository.saveAndFlush(estimatesEntity);
     }
 }

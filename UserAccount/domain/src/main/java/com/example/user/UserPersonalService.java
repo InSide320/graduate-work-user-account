@@ -1,9 +1,13 @@
 package com.example.user;
 
 import com.example.exception.NotFoundException;
+import com.example.user.credentials.CredentialUserEntity;
 import com.example.user.credentials.CredentialUserRepository;
 import com.example.user.details.DetailUserRepository;
 import org.springframework.data.domain.Example;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +17,7 @@ import java.util.Optional;
 public record UserPersonalService(
         UserPersonalDataRepository userPersonalDataRepository,
         DetailUserRepository detailUserRepository,
-        CredentialUserRepository credentialUserRepository) {
+        CredentialUserRepository credentialUserRepository) implements UserDetailsService {
 
     public void saveAndFlush(UserPersonalDataEntity userPersonalDataEntity) {
         userPersonalDataRepository.saveAndFlush(userPersonalDataEntity);
@@ -59,5 +63,11 @@ public record UserPersonalService(
         if (!Optional.of(userPersonalDataRepository.findAll().size() >= id).orElse(id > 0)) {
             throw new NotFoundException("ID cannot be larger or less");
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return credentialUserRepository.loadUserByUsername(username)
+                .orElseThrow(() -> new NotFoundException("Email not registered: " + username));
     }
 }

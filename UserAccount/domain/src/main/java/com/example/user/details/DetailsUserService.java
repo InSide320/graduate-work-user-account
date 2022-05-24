@@ -18,4 +18,8 @@ public record DetailsUserService(
     public DetailUserEntity save(DetailUserEntity entity) {
         return detailUserRepository.save(entity);
     }
+
+    public DetailUserEntity saveAndFlush(DetailUserEntity entity) {
+        return detailUserRepository.saveAndFlush(entity);
+    }
 }

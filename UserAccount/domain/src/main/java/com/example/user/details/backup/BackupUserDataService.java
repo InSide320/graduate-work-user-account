@@ -15,4 +15,8 @@ public record BackupUserDataService(
     public BackupUserDataEntity save(BackupUserDataEntity backupUserDataEntity) {
         return backupUserDataRepository.save(backupUserDataEntity);
     }
+
+    public BackupUserDataEntity saveAndFlush(BackupUserDataEntity backupUserDataEntity) {
+        return backupUserDataRepository.saveAndFlush(backupUserDataEntity);
+    }
 }

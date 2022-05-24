@@ -1,17 +1,18 @@
 package com.example.controllers.mvc.registration;
 
-import com.example.controllers.PersonalInformationController;
 import com.example.user.UserPersonalDataEntity;
 import com.example.user.UserPersonalService;
 import com.example.user.credentials.CredentialUserEntity;
 import com.example.user.credentials.CredentialsUserService;
 import com.example.user.credentials.generate.GenerateCredentialsEmail;
 import com.example.user.credentials.generate.GenerateCredentialsPassword;
+import com.example.user.credentials.role.RoleType;
 import com.example.user.details.DetailUserEntity;
 import com.example.user.details.DetailsUserService;
 import com.example.user.details.backup.BackupUserDataService;
 import com.example.user.details.introductory.EstimatesEntity;
 import com.example.user.details.introductory.EstimatesService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/registration")
 public record RegistrationController(
@@ -27,19 +31,36 @@ public record RegistrationController(
         DetailsUserService detailsUserService,
         BackupUserDataService backupUserDataService,
         CredentialsUserService credentialsUserService,
-        EstimatesService estimatesService
+        EstimatesService estimatesService,
+        PasswordEncoder encoder
 ) {
+
     @GetMapping
     public String viewUserPersonalData(Model model) {
         UserPersonalDataEntity userPersonalDataEntity = new UserPersonalDataEntity();
-        model.addAttribute("registrationForm", userPersonalDataEntity);
+        model.addAttribute("registrationForm", userPersonalDataEntity)
+                .addAttribute("giveCredentialToUser", new ArrayList<String>());
         return "registration";
     }
 
     @PostMapping
     public String saveUser(
             @ModelAttribute("registrationForm")
-            @Validated UserPersonalDataEntity userPersonalData) {
+            @Validated UserPersonalDataEntity userPersonalData,
+            Model model) {
+
+        List<String> credential = new ArrayList<>(List.of(
+                GenerateCredentialsEmail.generateEmail(
+                        userPersonalData.getLastNameTransliteration(),
+                        userPersonalData.getFirstNameTransliteration()),
+                GenerateCredentialsPassword.generateStrongPassword())
+        );
+        model.addAttribute("giveCredentialToUser", credential);
+        CredentialUserEntity credentialUserEntity = new CredentialUserEntity(
+                credential.get(0),
+                encoder.encode(credential.get(1)),
+                RoleType.STUDENT
+        );
         userPersonalService.saveAndFlush(
                 new UserPersonalDataEntity(
                         userPersonalData.getId(), userPersonalData.getLastNameTransliteration(),
@@ -47,30 +68,25 @@ public record RegistrationController(
                         userPersonalData.getLastNameCyrillic(),
                         userPersonalData.getFirstNameCyrillic(),
                         userPersonalData.getMidlNameCyrillic(),
-                        detailsUserService.save(
+                        detailsUserService.saveAndFlush(
                                 new DetailUserEntity(
-                                        userPersonalData.getDetailUserEntity().getRoleType(),
                                         userPersonalData.getDetailUserEntity().getDateEnter(),
                                         userPersonalData.getDetailUserEntity().getDateRelease(),
                                         userPersonalData.getDetailUserEntity().getGroupCyrillic(),
                                         userPersonalData.getDetailUserEntity()
                                                 .getGroupTransliteration(),
-                                        backupUserDataService.save(
+                                        backupUserDataService.saveAndFlush(
                                                 userPersonalData.getDetailUserEntity()
                                                         .getBackupUserDataEntity()),
-                                        estimatesService.save(new EstimatesEntity())
+                                        estimatesService.saveAndFlush(new EstimatesEntity())
                                 )
                         ),
-                        credentialsUserService.save(
-                                new CredentialUserEntity(
-                                        GenerateCredentialsEmail.generateEmail(
-                                                userPersonalData.getLastNameTransliteration(),
-                                                userPersonalData.getFirstNameTransliteration()),
-                                        GenerateCredentialsPassword.generateStrongPassword()
-                                )
+                        credentialsUserService.saveAndFlush(
+                                credentialUserEntity
                         )
                 )
         );
+        System.out.println(credentialUserEntity.getAuthorities());
         return "registration";
     }
 }

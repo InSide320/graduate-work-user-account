@@ -2,11 +2,12 @@ package com.example.user.details;
 
 import com.example.user.details.backup.BackupUserDataEntity;
 import com.example.user.details.introductory.EstimatesEntity;
-import com.example.user.details.type.RoleType;
+import com.example.user.credentials.role.RoleType;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -16,16 +17,14 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Table(name = "detail_users")
-public class DetailUserEntity {
+public class DetailUserEntity implements Serializable {
 
-    public DetailUserEntity(RoleType roleType,
-                            LocalDate dateEnter,
+    public DetailUserEntity(LocalDate dateEnter,
                             LocalDate dateRelease,
                             String groupCyrillic,
                             String groupTransliteration,
                             BackupUserDataEntity backupUserDataEntity,
                             EstimatesEntity estimates) {
-        this.roleType = roleType;
         this.dateEnter = dateEnter;
         this.dateRelease = dateRelease;
         this.groupCyrillic = groupCyrillic;
@@ -40,10 +39,6 @@ public class DetailUserEntity {
     @Column(name = "id")
     @ToString.Exclude
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role_type")
-    private RoleType roleType;
 
     @Column(name = "date_enter")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

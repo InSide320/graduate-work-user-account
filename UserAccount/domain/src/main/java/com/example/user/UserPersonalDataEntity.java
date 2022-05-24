@@ -2,7 +2,9 @@ package com.example.user;
 
 import com.example.user.credentials.CredentialUserEntity;
 import com.example.user.details.DetailUserEntity;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -58,6 +60,7 @@ public class UserPersonalDataEntity {
             joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "id")
     )
+
     @Getter
     @Setter
     private DetailUserEntity detailUserEntity;
@@ -80,5 +83,4 @@ public class UserPersonalDataEntity {
                 + ", detailUserEntity=" + detailUserEntity + "\n"
                 + '}';
     }
-
 }

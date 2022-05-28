@@ -25,4 +25,5 @@ public interface CredentialUserRepository extends JpaRepository<CredentialUserEn
             + "where id=:id")
     Integer updateRoleTypeUser(@Param("id") long id, @Param("roleType") RoleType roleType);
 
+    CredentialUserEntity findByActivationCode(String code);
 }

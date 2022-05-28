@@ -1,10 +1,7 @@
 package com.example.user.credentials;
 
 import com.example.user.credentials.role.RoleType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,10 +18,12 @@ import java.util.Collections;
 @Table(name = "credential_users")
 public class CredentialUserEntity implements UserDetails, Serializable {
 
-    public CredentialUserEntity(String authEmail, String authPassword, RoleType roleType) {
+    public CredentialUserEntity(String authEmail, String authPassword,
+                                RoleType roleType, String backupEmail) {
         this.authEmail = authEmail;
         this.authPassword = authPassword;
         this.roleType = roleType;
+        this.backupEmail = backupEmail;
     }
 
     @Id
@@ -44,6 +43,12 @@ public class CredentialUserEntity implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
+    @Column(name = "email_backup")
+    private String backupEmail;
+
+    @ToString.Exclude
+    @Column(name = "activation_code")
+    private String activationCode;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

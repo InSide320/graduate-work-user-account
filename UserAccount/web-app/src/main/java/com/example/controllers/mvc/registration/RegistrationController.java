@@ -16,16 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
-@RequestMapping("/registration")
 public record RegistrationController(
         UserPersonalService userPersonalService,
         DetailsUserService detailsUserService,
@@ -35,31 +30,36 @@ public record RegistrationController(
         PasswordEncoder encoder
 ) {
 
-    @GetMapping
+    @GetMapping("/registration")
     public String viewUserPersonalData(Model model) {
         UserPersonalDataEntity userPersonalDataEntity = new UserPersonalDataEntity();
         model.addAttribute("registrationForm", userPersonalDataEntity)
                 .addAttribute("giveCredentialToUser", new ArrayList<String>());
-        return "registration";
+        return "/registration";
     }
 
-    @PostMapping
+    @GetMapping("/activate/{code}")
+    public String activateEmail(Model model, @PathVariable String code) {
+        boolean isActivated = credentialsUserService.activateUser(code);
+        if (isActivated) {
+            model.addAttribute("messages", "User successfully activated");
+        } else {
+            model.addAttribute("messages", "Activation code is not found!");
+        }
+        return "/login";
+    }
+
+    @PostMapping("/registration")
     public String saveUser(
             @ModelAttribute("registrationForm")
-            @Validated UserPersonalDataEntity userPersonalData,
-            Model model) {
-
-        List<String> credential = new ArrayList<>(List.of(
+            @Validated UserPersonalDataEntity userPersonalData) {
+        CredentialUserEntity credentialUserEntity = new CredentialUserEntity(
                 GenerateCredentialsEmail.generateEmail(
                         userPersonalData.getLastNameTransliteration(),
                         userPersonalData.getFirstNameTransliteration()),
-                GenerateCredentialsPassword.generateStrongPassword())
-        );
-        model.addAttribute("giveCredentialToUser", credential);
-        CredentialUserEntity credentialUserEntity = new CredentialUserEntity(
-                credential.get(0),
-                encoder.encode(credential.get(1)),
-                RoleType.STUDENT
+                GenerateCredentialsPassword.generateStrongPassword(),
+                RoleType.STUDENT,
+                userPersonalData.getCredentialUserEntity().getBackupEmail()
         );
         userPersonalService.saveAndFlush(
                 new UserPersonalDataEntity(
@@ -79,14 +79,10 @@ public record RegistrationController(
                                                 userPersonalData.getDetailUserEntity()
                                                         .getBackupUserDataEntity()),
                                         estimatesService.saveAndFlush(new EstimatesEntity())
-                                )
-                        ),
-                        credentialsUserService.saveAndFlush(
-                                credentialUserEntity
-                        )
+                                )),
+                        credentialsUserService.saveAndFlush(credentialUserEntity)
                 )
         );
-        System.out.println(credentialUserEntity.getAuthorities());
-        return "registration";
+        return "redirect:/login";
     }
 }

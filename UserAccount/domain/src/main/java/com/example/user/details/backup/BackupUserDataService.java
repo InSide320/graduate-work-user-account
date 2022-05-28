@@ -1,5 +1,6 @@
 package com.example.user.details.backup;
 
+import com.example.exception.ValidationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +14,16 @@ public record BackupUserDataService(
     }
 
     public BackupUserDataEntity save(BackupUserDataEntity backupUserDataEntity) {
+        if (backupUserDataEntity.getPhoneNumber().isBlank()) {
+            throw new ValidationException("Phone number isBlank");
+        }
         return backupUserDataRepository.save(backupUserDataEntity);
     }
 
     public BackupUserDataEntity saveAndFlush(BackupUserDataEntity backupUserDataEntity) {
+        if (backupUserDataEntity.getPhoneNumber().isBlank()) {
+            throw new ValidationException("Phone number isBlank");
+        }
         return backupUserDataRepository.saveAndFlush(backupUserDataEntity);
     }
 }

@@ -53,7 +53,7 @@ class CredentialsUserRepositoryTest {
                 = new CredentialUserEntity(GenerateCredentialsEmail
                 .generateEmail("Kud", "Denis"),
                 GenerateCredentialsPassword.generateStrongPassword(),
-                RoleType.STUDENT);
+                RoleType.STUDENT, null);
         credentialUserRepository.save(credentialUserEntity);
 
         AssertionsForClassTypes.assertThat(credentialUserRepository.count()).isEqualTo(1);
@@ -68,11 +68,11 @@ class CredentialsUserRepositoryTest {
 
         credentialUserRepository.save(new CredentialUserEntity(GenerateCredentialsEmail
                 .generateEmail("Kud", "Denis"),
-                GenerateCredentialsPassword.generateStrongPassword(), RoleType.STUDENT));
+                GenerateCredentialsPassword.generateStrongPassword(), RoleType.STUDENT, null));
 
         credentialUserRepository.save(new CredentialUserEntity(GenerateCredentialsEmail
                 .generateEmail("Kud", "Denis"),
-                GenerateCredentialsPassword.generateStrongPassword(), RoleType.STUDENT));
+                GenerateCredentialsPassword.generateStrongPassword(), RoleType.STUDENT, null));
         System.out.println(credentialUserRepository.findAll());
 
         AssertionsForClassTypes.assertThat(credentialUserRepository.count()).isEqualTo(2);
@@ -85,14 +85,14 @@ class CredentialsUserRepositoryTest {
         credentialUserRepository.save(new CredentialUserEntity(
                 "sd",
                 "sd",
-                RoleType.STUDENT)
+                RoleType.STUDENT, null)
         );
         List<CredentialUserEntity> list = credentialUserRepository.findAll();
 
         list.add(new CredentialUserEntity(
                 "sd",
                 "sd",
-                RoleType.STUDENT)
+                RoleType.STUDENT, null)
         );
         AssertionsForClassTypes.assertThat(list.get(0).toString())
                 .hasToString(list.get(1).toString());

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="eng">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet"
@@ -21,15 +23,26 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/personal-data" class="nav-link px-2 text-white">Personal data</a></li>
                 <li><a href="/manipulation" class="nav-link px-2 text-white">Get information</a></li>
-                <li><a href="/change-data" class="nav-link px-2 text-white">Сhange data</a></li>
+                <li sec:authorize="hasAuthority('TEACHER')">
+                    <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
+                </li>
                 <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
-                <li><a href="/upload" class="nav-link px-2 text-secondary">Upload</a></li>
+                <li sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/upload" class="nav-link px-2 text-secondary">Upload</a></li>
+                <li sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
+                </li>
             </ul>
 
             <div class="text-end">
-                <a href="/logout">
-                    <button type="button" class="btn btn-warning">Log-out</button>
-                </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li th:text="${getAuthorizedUser.credentialUserEntity.username}"
+                        class="nav-link px-2 text-secondary">>
+                    </li>
+                    <li><a href="/logout">
+                        <button type="button" class="btn btn-warning">Log-out</button>
+                    </a></li>
+                </ul>
             </div>
         </div>
     </div>

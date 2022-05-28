@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="eng">
 <head>
     <meta http-equiv="refresh" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet"
@@ -21,34 +23,96 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/personal-data" class="nav-link px-2 text-secondary">Personal data</a></li>
                 <li><a href="/manipulation" class="nav-link px-2 text-white">Get information</a></li>
-                <li><a href="/change-data" class="nav-link px-2 text-white">Сhange data</a></li>
+                <li sec:authorize="hasAuthority('TEACHER')">
+                    <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
+                </li>
                 <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
-                <li><a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                <li sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                <li sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
+                </li>
             </ul>
 
             <div class="text-end">
-                <a href="/logout">
-                    <button type="button" class="btn btn-warning">Log-out</button>
-                </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li th:text="${getAuthorizedUser.credentialUserEntity.username}"
+                        class="nav-link px-2 text-secondary">>
+                    </li>
+                    <li><a href="/logout">
+                        <button type="button" class="btn btn-warning">Log-out</button>
+                    </a></li>
+                </ul>
             </div>
         </div>
     </div>
 </header>
 
-<form th:action="@{/}" th:method="post">
+<form th:action="@{/personal-data}" th:method="GET">
     <div>
         <tr>
             <td><label>
-                <input type="text" name="userId" placeholder="Input id user"
-                       required>
+                <input type="hidden" name="userId" th:value="${getAuthorizedUser.credentialUserEntity.id}"
+                       readonly>
             </label></td>
             <br>
             <td>
-                <button type="submit">Submit</button>
+                <h2>Full name: <span
+                        th:text="${getAuthorizedUser.getLastNameTransliteration()
+                        + ' '
+                        + getAuthorizedUser.getFirstNameTransliteration()} ">
+                </span>
+                </h2>
+                <h2>ПІБ: <span th:text="${getAuthorizedUser.getLastNameCyrillic() + ' ' +
+                     getAuthorizedUser.getFirstNameCyrillic() + ' ' +
+                      getAuthorizedUser.getMidlNameCyrillic()}"></span></h2>
+                <h3> Your group:
+                    <span th:text="${getAuthorizedUser.getDetailUserEntity().groupTransliteration}"></span>
+                </h3>
+                <h3>College application date:
+                    <span th:text="${getAuthorizedUser.getDetailUserEntity().dateEnter}"></span>
+                </h3>
+                <h3>
+                    College graduation date:
+                    <span th:text="${getAuthorizedUser.getDetailUserEntity().dateRelease}"></span>
+                </h3>
+                <h3>
+                    Your backup data:
+                    <span th:text="${'Email: '+ getAuthorizedUser.credentialUserEntity.backupEmail
+                    + ' Phone: ' + getAuthorizedUser.getDetailUserEntity().getBackupUserDataEntity().phoneNumber}"
+                    ></span>
+                </h3>
+                <div th:switch="${getAuthorizedUser.credentialUserEntity.roleType.name()}"
+                     th:case="${getAuthorizedUser.credentialUserEntity.roleType.STUDENT.name()}">
+                    <h4 class="container px-2">
+                        Your entrance exams:
+                    </h4>
+                    <table class="container px-4" id="myTable">
+                        <tr>
+                            <th>Ukrainian language</th>
+                            <th>Math Subject</th>
+                            <th>Additional subject</th>
+                            <th>Average subjects</th>
+                            <th>Max scores subject</th>
+                            <th>Min scores subject</th>
+                        </tr>
+                        <tbody>
+                        <tr>
+                            <td th:text="${getAuthorizedUser.getDetailUserEntity().getEstimatesEntity().ukrainianLanguage}"></td>
+                            <td th:text="${getAuthorizedUser.getDetailUserEntity().getEstimatesEntity().mathSubject}"></td>
+                            <td th:text="${getAuthorizedUser.getDetailUserEntity().getEstimatesEntity().additionalSubject}"></td>
+                            <td th:text="${getAuthorizedUser.getDetailUserEntity().getEstimatesEntity().avgSubject}"></td>
+                            <td th:text="${getAuthorizedUser.getDetailUserEntity().getEstimatesEntity().maxSubject}"></td>
+                            <td th:text="${getAuthorizedUser.getDetailUserEntity().getEstimatesEntity().minSubject}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </td>
             <br>
-            <td th:text="${info}"></td>
         </tr>
+        <h3><a th:href="@{/personal-data/change-date}">Change arrival/release date</a></h3>
+        <h3><a th:href="@{/personal-data/change-password}">Change password</a></h3>
     </div>
 </form>
 

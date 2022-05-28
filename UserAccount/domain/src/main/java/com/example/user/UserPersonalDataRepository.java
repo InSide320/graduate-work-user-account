@@ -21,8 +21,7 @@ public interface UserPersonalDataRepository extends JpaRepository<UserPersonalDa
             + "from UserPersonalDataEntity as upd "
             + "inner join DetailUserEntity as dt on upd.id=dt.id "
             + "where dt.groupTransliteration=:groupTransliteration")
-    List<UserPersonalDataEntity>
-    getUserPersonalDataEntitiesByDetailUserEntityEqualsGroup(
+    List<UserPersonalDataEntity> getUserPersonalDataEntitiesByDetailUserEntityEqualsGroup(
             @Param("groupTransliteration") String groupTransliteration
     );
 }

@@ -1,9 +1,6 @@
 package com.example.user.details.backup;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,9 +8,9 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "backup_users_data")
 public class BackupUserDataEntity {
-
     @Id
     @Setter(AccessLevel.PROTECTED)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +20,7 @@ public class BackupUserDataEntity {
 
     private String phoneNumber;
 
-    private String emailBackup;
-
+    public BackupUserDataEntity(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

@@ -30,7 +30,7 @@
             </ul>
 
             <div class="text-end">
-                <a href="login">
+                <a href="/login">
                     <button type="button" class="btn btn-warning">Sign-in</button>
                 </a>
             </div>
@@ -69,14 +69,14 @@
                 <td><label>
                     First name cyrillic:
                     <input type="text" th:field="*{firstNameCyrillic}"
-                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16}" placeholder="І'мя" required>
+                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16}" placeholder="І'мя">
                 </label></td>
 
                 <td></td>
                 <td><label>
                     Midl name cyrillic:
                     <input type="text" th:field="*{midlNameCyrillic}"
-                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16,32}" placeholder="І'мя по батькові" required>
+                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16,32}" placeholder="І'мя по батькові">
                 </label></td>
 
             <tr>
@@ -129,8 +129,7 @@
                 </td>
                 <td><label>
                     <input type="email" placeholder="email@mail.com"
-                           th:field="*{detailUserEntity.backupUserDataEntity.emailBackup}"
-                           required>
+                           th:field="*{credentialUserEntity.backupEmail}">
                 </label></td>
             </tr>
 
@@ -142,20 +141,6 @@
                 </td>
             </tr>
         </table>
-        <div th:each="el:${giveCredentialToUser}">
-            <h1 th:text="${el}"></h1>
-        </div>
-
-        <script type="javascript" th:object="${registrationForm}">
-            const button = document.querySelector("button")
-
-            const handleClick = () => {
-                const value = input.value.trim()
-                alert('Hello: ${value}')
-            }
-            button.addEventListener("click", handleClick)
-            alert('Your mail: ' + +'Your password: ')
-        </script>
     </form>
 </div>
 

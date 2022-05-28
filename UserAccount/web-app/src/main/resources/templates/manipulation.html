@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="eng">
 <head>
     <meta http-equiv="refresh" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet"
@@ -19,54 +21,66 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="personal-data" class="nav-link px-2 text-white">Personal data</a></li>
-                <li><a href="manipulation" class="nav-link px-2 text-secondary">Get information</a></li>
-                <li><a href="change-data" class="nav-link px-2 text-white">Сhange data</a></li>
-                <li><a href="download" class="nav-link px-2 text-white">Download</a></li>
-                <li><a href="upload" class="nav-link px-2 text-white">Upload</a></li>
+                <li><a href="/personal-data" class="nav-link px-2 text-white">Personal data</a></li>
+                <li><a href="/manipulation" class="nav-link px-2 text-secondary">Get information</a></li>
+                <li sec:authorize="hasAuthority('TEACHER')">
+                    <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
+                </li>
+                <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
+                <li sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                <li sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
+                </li>
             </ul>
 
             <div class="text-end">
-                <a href="registration">
-                    <button type="button" class="btn btn-warning">Log-out</button>
-                </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li th:text="${getAuthorizedUser}"
+                        class="nav-link px-2 text-secondary">>
+                    </li>
+                    <li><a href="/logout">
+                        <button type="button" class="btn btn-warning">Log-out</button>
+                    </a></li>
+                </ul>
             </div>
         </div>
     </div>
 </header>
 
-<form action="manipulation" th:action="manipulation" method="post">
-    <tr>
-        <td><label>
-            <select name="group" required>
-                <option value="PS4-1">PS4-1</option>
-                <option value="PS3-1">PS3-1</option>
-                <option value="PS2-1">PS2-1</option>
-                <option value="PS1-1">PS1-1</option>
-                <option value="RA4-1">RA4-1</option>
-                <option value="RA3-1">RA3-1</option>
-                <option value="RA2-1">RA2-1</option>
-                <option value="RA1-1">RA1-1</option>
-                <option value="EA4-1">EA4-1</option>
-                <option value="EA4-1">EA3-1</option>
-                <option value="EA4-1">EA2-1</option>
-                <option value="EA4-1">EA1-1</option>
-            </select>
-        </label></td>
-        <!--        <input type="text" name="group">-->
-        <br>
-        <button type="submit">Set group</button>
-        </td>
-        <br>
-
-    </tr>
-    <tr th:each="el:${getGroupData}">
-        <td th:text="*{'Full name: '+ el.lastNameTransliteration + ' ' + el.firstNameTransliteration}">
-        </td>
-        <td th:text="*{el.detailUserEntity.groupTransliteration}"></td>
-        <td th:text="*{el.detailUserEntity.estimatesEntity.avgSubject}"></td>
-        <br>
-    </tr>
+<form th:action="@{/manipulation}" th:method="POST">
+    <div>
+        <span>
+            <label>
+                <select th:name="group" required>
+                    <option value="PS1-1">PS1-1</option>
+                    <option value="RA1-1">RA1-1</option>
+                    <option value="EA1-1">EA1-1</option>
+                </select>
+            </label>
+            <br>
+            <button type="submit">Set group</button>
+            <br>
+        </span>
+        <table class="container px-4" id="myTable">
+            <caption>Table of grades from subjects in groups</caption>
+            <tr>
+                <th>Full name</th>
+                <th>Group</th>
+                <th>Average score from subjects</th>
+                <th>Minimum score for subjects</th>
+                <th>Maximum score in subjects</th>
+            </tr>
+            <tr th:each="el:${getGroupData}" th:switch="*{el.credentialUserEntity.roleType.name()}"
+                th:case="*{el.credentialUserEntity.roleType.STUDENT.name()}">
+                <td th:text="*{el.lastNameTransliteration + ' ' + el.firstNameTransliteration}"></td>
+                <td th:text="*{el.detailUserEntity.groupTransliteration}"></td>
+                <td th:text="*{el.detailUserEntity.estimatesEntity.avgSubject}"></td>
+                <td th:text="*{el.detailUserEntity.estimatesEntity.minSubject}"></td>
+                <td th:text="*{el.detailUserEntity.estimatesEntity.maxSubject}"></td>
+            </tr>
+        </table>
+    </div>
 </form>
 
 

@@ -26,19 +26,19 @@
                     <li><a href="/personal-data" class="nav-link px-2 text-white">Personal data</a></li>
                     <li><a href="/manipulation" class="nav-link px-2 text-white">Get information</a></li>
                     <li sec:authorize="hasAuthority('TEACHER')">
-                        <a href="/change-data" class="nav-link px-2 text-secondary">Сhange data</a>
+                        <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
                     </li>
                     <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
                     <li sec:authorize="hasAuthority('ADMIN')">
                         <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
                     <li sec:authorize="hasAuthority('ADMIN')">
-                        <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
+                        <a href="/admin" class="nav-link px-2 text-secondary">Admin panel</a>
                     </li>
                 </ul>
 
                 <div class="text-end">
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li th:text="${getAuthorizedUser.credentialUserEntity.username}"
+                        <li th:text="${getAuthorizedUser.username}"
                             class="nav-link px-2 text-secondary">>
                         </li>
                         <li><a href="/logout">
@@ -49,29 +49,54 @@
             </div>
         </div>
     </header>
-    <form th:method="GET" th:action="@{/change-data}"
-          sec:authorize="hasAuthority('TEACHER')">
+
+    <form th:method="GET" th:action="@{/admin/role-type}" sec:authorize="hasAuthority('ADMIN')">
         <table class="container px-4">
-            <caption> Select student to change grade</caption>
+            <caption>
+                Change roles users
+            </caption>
+
+            <thead>
             <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Ukrainian language</th>
-                <th>Math subject</th>
-                <th>Additional subject</th>
+                <th>Email</th>
+                <th>Role</th>
                 <th></th>
             </tr>
-            <tr th:each="el:${personalData}" th:switch="${el.credentialUserEntity.roleType.name()}"
-                th:case="${el.credentialUserEntity.roleType.STUDENT.name()}">
-                <td><input type="hidden" th:value="*{el.id}" name="id"></td>
-                <td th:text="*{el.firstNameTransliteration}"></td>
-                <td th:text="*{el.lastNameTransliteration}"></td>
-                <td th:text="*{el.detailUserEntity.estimatesEntity.ukrainianLanguage}"></td>
-                <td th:text="*{el.detailUserEntity.estimatesEntity.mathSubject}"></td>
-                <td th:text="*{el.detailUserEntity.estimatesEntity.additionalSubject}"></td>
-                <td><a th:href="@{/change-data/entrance/{userId}(userId=${el.id})}">Edit</a></td>
+            </thead>
+            <tbody th:each="el:${credentialData}">
+            <tr th:switch="*{el.roleType.name()}" th:case="*{el.roleType.TEACHER.name()}"
+                sec:authorize="hasAuthority('ADMIN')">
+                <td><span th:text="*{el.authEmail}"></span></td>
+                <td><span th:text="*{el.roleType.name()}"></span></td>
+                <td>
+                    <a th:href="@{/admin/role-type/{id}(id=${el.id})}">edit</a>
+                </td>
             </tr>
+            <tr th:switch="*{el.roleType.name()}" th:case="*{el.roleType.STUDENT.name()}"
+                sec:authorize="hasAuthority('ADMIN')">
+                <td><span th:text="*{el.authEmail}"></span></td>
+                <td><span th:text="*{el.roleType.name()}"></span></td>
+                <td>
+                    <a th:href="@{/admin/role-type/{id}(id=${el.id})}">edit</a>
+                </td>
+            </tr>
+            <tr th:switch="*{el.roleType.name()}" th:case="*{el.roleType.ADMIN.name()}"
+                sec:authorize="hasAuthority('SUPER_ADMIN')">
+                <td><span th:text="*{el.authEmail}"></span></td>
+                <td><span th:text="*{el.roleType.name()}"></span></td>
+                <td>
+                    <a th:href="@{/admin/role-type/{id}(id=${el.id})}">edit</a>
+                </td>
+            </tr>
+            <tr th:switch="*{el.roleType.name()}" th:case="*{el.roleType.SUPER_ADMIN.name()}"
+                sec:authorize="hasAuthority('SUPER_ADMIN')">
+                <td><span th:text="*{el.authEmail}"></span></td>
+                <td><span th:text="*{el.roleType.name()}"></span></td>
+                <td>
+                    <a th:href="@{/admin/role-type/{id}(id=${el.id})}">edit</a>
+                </td>
+            </tr>
+            </tbody>
         </table>
     </form>
 

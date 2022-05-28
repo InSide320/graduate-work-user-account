@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="eng">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet"
@@ -28,7 +30,7 @@
             </ul>
 
             <div class="text-end">
-                <a href="registration">
+                <a href="/registration">
                     <button type="button" class="btn btn-warning">Sign-up</button>
                 </a>
             </div>
@@ -36,24 +38,38 @@
     </div>
 </header>
 
-<div class="SignIn">
-    <div class="">
-        <tr>
-            <td><h4>Email:</h4><input type="email" placeholder="Input your email"></td>
-        </tr>
-        <tr>
-            <td><h4>Password:</h4> <input type="password" placeholder="Input your password"></td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    <button type="submit" value="SignIn">SignIn</button>
-                </p>
-            </td>
-        </tr>
-    </div>
-
+<div th:if="${param.error}">
+    Invalid username and password.
 </div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<form th:action="@{/login}" method="post">
+    <div th:if="${messages}?ifExists"><p th:text="${messages}"></p></div>
+    <div class="SignIn">
+        <div class="">
+            <tr>
+                <td><h4>Email:</h4><input type="email" name="username"
+                                          placeholder="Input your email">
+                </td>
+            </tr>
+            <tr>
+                <td><h4>Password:</h4> <input type="password" name="password"
+                                              placeholder="Input your password"></td>
+            </tr>
+            <tr>
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+
+                <td>
+                    <p>
+                        <input type="submit" value="Sign In">
+                    </p>
+                </td>
+            </tr>
+        </div>
+    </div>
+</form>
+
 
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

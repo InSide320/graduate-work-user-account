@@ -1,11 +1,10 @@
 package com.example.user.details.introductory;
 
-import com.example.exception.NotFoundException;
+import com.example.exception.ValidationException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
 
 @Service
 public record EstimatesService(EstimatesRepository estimatesRepository) {
@@ -26,34 +25,43 @@ public record EstimatesService(EstimatesRepository estimatesRepository) {
             Integer ukLang,
             Integer mathSubject,
             Integer additionalSubject,
-            Double avgSubject,
-            Integer minSubject,
-            Integer maxSubject,
             long id) {
+
+        if (ukLang.describeConstable().isEmpty()) {
+            throw new ValidationException("Input ukrainian language for save");
+        }
+        if (mathSubject.describeConstable().isEmpty()) {
+            throw new ValidationException("Input math subject for save");
+        }
+        if (additionalSubject.describeConstable().isEmpty()) {
+            throw new ValidationException("Input additional subject for save");
+        }
+        if (ukLang < 1 || ukLang >= 13) {
+            throw new IllegalArgumentException("The mark from the ukrainian language subject must be in the range from 1 to 12");
+        }
+        if (additionalSubject < 1 || additionalSubject > 13) {
+            throw new IllegalArgumentException("The mark from the additional subject must be in the range from 1 to 12");
+        }
+        if (mathSubject < 1 || mathSubject > 13) {
+            throw new IllegalArgumentException("The mark from the math subject must be in the range from 1 to 12");
+        }
+
+        List<Integer> estimatesSubject = new ArrayList<>(
+                List.of(ukLang,
+                        mathSubject,
+                        additionalSubject)
+        );
+
         return estimatesRepository
                 .queryUpdateEstimatesEntityById(
                         ukLang, mathSubject, additionalSubject,
-                        avgSubject, minSubject, maxSubject,
+                        estimatesSubject.stream().mapToDouble(avg -> avg).average().getAsDouble(),
+                        estimatesSubject.stream().mapToInt(Integer::intValue).min().getAsInt(),
+                        estimatesSubject.stream().mapToInt(Integer::intValue).max().getAsInt(),
                         id);
     }
 
-    public Double getAvg(long id) {
-        return estimatesRepository.getAvgSubject(id);
-    }
-
-    public List<EstimatesEntity> getAllEstimatesByGroup(String group) {
-        return null;
-    }
-
-    public EstimatesEntity getAvgEstimatesByUser() {
-        return null;
-    }
-
-    public EstimatesEntity getMaxEstimatesByUser() {
-        return null;
-    }
-
-    public EstimatesEntity getMinEstimatesByUser() {
-        return null;
+    public EstimatesEntity saveAndFlush(EstimatesEntity estimatesEntity) {
+        return estimatesRepository.saveAndFlush(estimatesEntity);
     }
 }

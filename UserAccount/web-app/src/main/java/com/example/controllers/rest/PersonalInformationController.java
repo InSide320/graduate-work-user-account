@@ -1,13 +1,15 @@
-package com.example.controllers;
+package com.example.controllers.rest;
 
 import com.example.user.UserPersonalDataEntity;
 import com.example.user.UserPersonalService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/web-api/users")
+@Api
 public class PersonalInformationController {
     UserPersonalService userPersonalService;
 
@@ -21,7 +23,7 @@ public class PersonalInformationController {
     }
 
     @GetMapping
-    public List<UserPersonalDataEntity> all() {
+    public List<UserPersonalDataEntity> findAllUser() {
         return userPersonalService.findAll();
     }
 
@@ -31,7 +33,7 @@ public class PersonalInformationController {
     }
 
     @DeleteMapping("{userId}")
-    public boolean delete(@PathVariable Long userId) {
+    public boolean deleteUserById(@PathVariable Long userId) {
         return userPersonalService.deleteById(userId);
     }
 }

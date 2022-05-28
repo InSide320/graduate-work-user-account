@@ -1,5 +1,6 @@
 package com.example.user.credentials.generate;
 
+import com.example.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,12 @@ public class GenerateCredentialsEmail {
     }
 
     public static String generateEmail(String lastName, String firstName) {
+        if (lastName.isBlank()) {
+            throw new ValidationException("lastName is blank");
+        }
+        if (firstName.isBlank()) {
+            throw new ValidationException("first name is blank");
+        }
 
         Random random = null;
         try {

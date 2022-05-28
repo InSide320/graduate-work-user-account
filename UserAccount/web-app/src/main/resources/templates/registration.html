@@ -15,7 +15,9 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                 <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                    <use xlink:href="#bootstrap"><img src="style/image/CPPCEmblem.jpg" alt="CPPC"></use>
+                    <use xlink:href="#bootstrap">
+                        <img th:src="@{style/image/CPPCEmblem.jpg}" src="style/image/CPPCEmblem.jpg" alt="CPPC">
+                    </use>
                 </svg>
             </a>
 
@@ -28,7 +30,7 @@
             </ul>
 
             <div class="text-end">
-                <a href="login">
+                <a href="/login">
                     <button type="button" class="btn btn-warning">Sign-in</button>
                 </a>
             </div>
@@ -45,7 +47,8 @@
             <tr>
                 <td><label>
                     First name transliteration:
-                    <input type="text" th:field="*{firstNameTransliteration}" minlength="2" pattern="[A-Za-z]{4,8,16}"
+                    <input type="text" th:field="*{firstNameTransliteration}" minlength="2"
+                           pattern="[A-Za-z]{4,8,16}"
                            placeholder="Name"
                            required>
                 </label></td>
@@ -66,44 +69,28 @@
                 <td><label>
                     First name cyrillic:
                     <input type="text" th:field="*{firstNameCyrillic}"
-                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16}" placeholder="І'мя" required>
+                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16}" placeholder="І'мя">
                 </label></td>
 
                 <td></td>
                 <td><label>
                     Midl name cyrillic:
                     <input type="text" th:field="*{midlNameCyrillic}"
-                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16,32}" placeholder="І'мя по батькові" required>
+                           minlength="2" pattern="[А-Яа-яЁё]{4,8,16,32}" placeholder="І'мя по батькові">
                 </label></td>
 
             <tr>
                 <td><h3>Detail user entity:</h3></td>
             </tr>
             <tr>
-                <td><label>
-                    Your are role:
-                    <select th:field="*{detailUserEntity.roleType}">
-                        <option value="STUDENT">STUDENT</option>
-                        <option value="TEACHER">TEACHER</option>
-                    </select>
-                </label></td>
                 <td>
                     Group you are place to:
                 </td>
                 <td><label>
                     <select th:field="*{detailUserEntity.groupCyrillic}" name="group_cyrillic"
                             id="group_cyr" required>
-                        <option value="ПС4-1">ПС4-1</option>
-                        <option value="ПС3-1">ПС3-1</option>
-                        <option value="ПС2-1">ПС2-1</option>
                         <option value="ПС1-1">ПС1-1</option>
-                        <option value="РА4-1">РА4-1</option>
-                        <option value="РА3-1">РА3-1</option>
-                        <option value="РА2-1">РА2-1</option>
                         <option value="РА1-1">РА1-1</option>
-                        <option value="ЕА4-1">ЕА4-1</option>
-                        <option value="ЕА3-1">ЕА3-1</option>
-                        <option value="ЕА2-1">ЕА2-1</option>
                         <option value="ЕА1-1">ЕА1-1</option>
                     </select>
                 </label></td>
@@ -113,17 +100,8 @@
                 <td><label>
                     <select th:field="*{detailUserEntity.groupTransliteration}" name="group_transliteration"
                             id="group_tr" required>
-                        <option value="PS4-1">PS4-1</option>
-                        <option value="PS3-1">PS3-1</option>
-                        <option value="PS2-1">PS2-1</option>
                         <option value="PS1-1">PS1-1</option>
-                        <option value="RA4-1">RA4-1</option>
-                        <option value="RA3-1">RA3-1</option>
-                        <option value="RA2-1">RA2-1</option>
                         <option value="RA1-1">RA1-1</option>
-                        <option value="EA4-1">EA4-1</option>
-                        <option value="EA4-1">EA3-1</option>
-                        <option value="EA4-1">EA2-1</option>
                         <option value="EA4-1">EA1-1</option>
                     </select>
                 </label></td>
@@ -151,19 +129,18 @@
                 </td>
                 <td><label>
                     <input type="email" placeholder="email@mail.com"
-                           th:field="*{detailUserEntity.backupUserDataEntity.emailBackup}"
-                           required>
+                           th:field="*{credentialUserEntity.backupEmail}">
                 </label></td>
             </tr>
 
             <tr>
                 <td>
+
                     <button type="submit">Registration</button>
+
                 </td>
             </tr>
         </table>
-        <h1 th:text="${registrationForm}"></h1>
-
     </form>
 </div>
 

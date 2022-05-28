@@ -2,6 +2,7 @@ package com.example.user.credentials;
 
 import com.example.user.credentials.generate.GenerateCredentialsEmail;
 import com.example.user.credentials.generate.GenerateCredentialsPassword;
+import com.example.user.credentials.role.RoleType;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,8 +52,8 @@ class CredentialsUserRepositoryTest {
         CredentialUserEntity credentialUserEntity
                 = new CredentialUserEntity(GenerateCredentialsEmail
                 .generateEmail("Kud", "Denis"),
-                GenerateCredentialsPassword.generateStrongPassword());
-
+                GenerateCredentialsPassword.generateStrongPassword(),
+                RoleType.STUDENT, null);
         credentialUserRepository.save(credentialUserEntity);
 
         AssertionsForClassTypes.assertThat(credentialUserRepository.count()).isEqualTo(1);
@@ -67,11 +68,11 @@ class CredentialsUserRepositoryTest {
 
         credentialUserRepository.save(new CredentialUserEntity(GenerateCredentialsEmail
                 .generateEmail("Kud", "Denis"),
-                GenerateCredentialsPassword.generateStrongPassword()));
+                GenerateCredentialsPassword.generateStrongPassword(), RoleType.STUDENT, null));
 
         credentialUserRepository.save(new CredentialUserEntity(GenerateCredentialsEmail
                 .generateEmail("Kud", "Denis"),
-                GenerateCredentialsPassword.generateStrongPassword()));
+                GenerateCredentialsPassword.generateStrongPassword(), RoleType.STUDENT, null));
         System.out.println(credentialUserRepository.findAll());
 
         AssertionsForClassTypes.assertThat(credentialUserRepository.count()).isEqualTo(2);
@@ -81,11 +82,18 @@ class CredentialsUserRepositoryTest {
     @DisplayName("Find all credential")
     @DirtiesContext
     void queryFindAll_whenSaveEntity_thenEqualsNewEntity() {
-        credentialUserRepository.save(new CredentialUserEntity("sd", "sd"));
+        credentialUserRepository.save(new CredentialUserEntity(
+                "sd",
+                "sd",
+                RoleType.STUDENT, null)
+        );
         List<CredentialUserEntity> list = credentialUserRepository.findAll();
 
-        list.add(new CredentialUserEntity("sd", "sd"));
-
+        list.add(new CredentialUserEntity(
+                "sd",
+                "sd",
+                RoleType.STUDENT, null)
+        );
         AssertionsForClassTypes.assertThat(list.get(0).toString())
                 .hasToString(list.get(1).toString());
     }

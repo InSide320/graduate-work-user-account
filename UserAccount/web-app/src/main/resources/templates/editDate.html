@@ -28,9 +28,8 @@
                     <li sec:authorize="hasAuthority('TEACHER')">
                         <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
                     </li>
-                    <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
-                    <li sec:authorize="hasAuthority('ADMIN')">
-                        <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                    <li><a href="/download" class="nav-link px-2 text-white"
+                           sec:authorize="hasAuthority('SUPER_ADMIN')">Download</a></li>
                     <li sec:authorize="hasAuthority('ADMIN')">
                         <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
                     </li>
@@ -42,13 +41,19 @@
                             class="nav-link px-2 text-secondary">>
                         </li>
                         <li><a href="/logout">
-                            <button type="button" class="btn btn-warning">Log-out</button>
+                            <button type="button" class="btn btn-warning" onclick="saveChangeData()">Log-out</button>
                         </a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </header>
+
+    <script>
+        function saveChangeData() {
+            alerts("Your change date!");
+        }
+    </script>
 
     <form th:action="@{/personal-data/change-date}" th:method="PATCH">
         <span>Enter a new college entry date:<input type="date" name="enter"

@@ -40,4 +40,16 @@ public class EstimatesEntity {
         this.mathSubject = mathSubject;
         this.additionalSubject = additionalSubject;
     }
+
+    @Override
+    public String toString() {
+        return "EstimatesEntity{"
+                + ", ukrainianLanguage=" + ukrainianLanguage + "\t"
+                + ", mathSubject=" + mathSubject + "\t"
+                + ", additionalSubject=" + additionalSubject + "\t"
+                + ", avgSubject=" + avgSubject + "\n"
+                + ", minSubject=" + minSubject + "\n"
+                + ", maxSubject=" + maxSubject + "\n"
+                + '}';
+    }
 }

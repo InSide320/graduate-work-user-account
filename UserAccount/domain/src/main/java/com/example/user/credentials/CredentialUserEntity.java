@@ -26,6 +26,17 @@ public class CredentialUserEntity implements UserDetails, Serializable {
         this.backupEmail = backupEmail;
     }
 
+    @Override
+    public String toString() {
+        return "CredentialUserEntity{"
+                + ", authEmail='" + authEmail + '\'' + "\n"
+                + ", authPassword='" + authPassword + '\'' + "\n"
+                + ", roleType=" + roleType + "\t"
+                + ", backupEmail='" + backupEmail + '\'' + "\n"
+                + ", activationCode='" + activationCode + '\'' + "\n"
+                + '}';
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

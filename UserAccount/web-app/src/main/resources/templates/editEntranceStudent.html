@@ -28,9 +28,8 @@
                     <li sec:authorize="hasAuthority('TEACHER')">
                         <a href="/change-data" class="nav-link px-2 text-secondary">Сhange data</a>
                     </li>
-                    <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
-                    <li sec:authorize="hasAuthority('ADMIN')">
-                        <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                    <li><a href="/download" class="nav-link px-2 text-white"
+                           sec:authorize="hasAuthority('SUPER_ADMIN')">Download</a></li>
                     <li sec:authorize="hasAuthority('ADMIN')">
                         <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
                     </li>
@@ -65,18 +64,26 @@
                 <td><input type="hidden" th:value="${personalData.id}" name="id"></td>
                 <td th:text="${personalData.firstNameTransliteration +' ' + personalData.lastNameTransliteration}"></td>
                 <td><input type="number" name="ukLang"
-                           th:value="${personalData.detailUserEntity.estimatesEntity.ukrainianLanguage}" min="1" max="12" required></td>
+                           th:value="${personalData.detailUserEntity.estimatesEntity.ukrainianLanguage}" min="1"
+                           max="12" required></td>
                 <td><input type="number" name="mathSubject"
-                           th:value="${personalData.detailUserEntity.estimatesEntity.mathSubject}" min="1" max="12" required></td>
+                           th:value="${personalData.detailUserEntity.estimatesEntity.mathSubject}" min="1" max="12"
+                           required></td>
                 <td><input type="number" name="additionalSubject"
-                           th:value="${personalData.detailUserEntity.estimatesEntity.additionalSubject}" min="1" max="12" required></td>
+                           th:value="${personalData.detailUserEntity.estimatesEntity.additionalSubject}" min="1"
+                           max="12" required></td>
                 <td>
-                    <button type="submit">Save estimates</button>
+                    <button type="submit" onclick="saveChangeData()">Save estimates</button>
                 </td>
             </tr>
         </table>
-
     </form>
+
+    <script>
+        function saveChangeData() {
+            alerts("Your change estimates!");
+        }
+    </script>
 
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

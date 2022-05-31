@@ -26,9 +26,8 @@
                 <li sec:authorize="hasAuthority('TEACHER')">
                     <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
                 </li>
-                <li><a href="/download" class="nav-link px-2 text-secondary">Download</a></li>
-                <li sec:authorize="hasAuthority('ADMIN')">
-                    <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                <li><a href="/download" class="nav-link px-2 text-secondary"
+                       sec:authorize="hasAuthority('SUPER_ADMIN')">Download</a></li>
                 <li sec:authorize="hasAuthority('ADMIN')">
                     <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
                 </li>
@@ -47,6 +46,22 @@
         </div>
     </div>
 </header>
+
+<div>
+    <form th:method="POST" th:action="@{/download}">
+        <br>
+        <a th:href="@{../templates/style/image/facebook.png}" download="personalInformation.png">Download file</a>
+        <button type="submit" sec:authorize="hasAuthority('SUPER_ADMIN')" onclick="alerts()">Download personal
+            information
+        </button>
+    </form>
+</div>
+
+<script>
+    function alerts() {
+        alert("Download file!")
+    }
+</script>
 
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

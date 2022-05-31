@@ -3,6 +3,7 @@ package com.example.user.credentials;
 import com.example.exception.NotFoundException;
 import com.example.exception.ValidationException;
 import com.example.sender.MailSenderService;
+import com.example.user.UserPersonalDataEntity;
 import com.example.user.credentials.role.RoleType;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,17 +33,22 @@ public record CredentialsUserService(
         }
         entity.setActivationCode(UUID.randomUUID().toString());
         if (!entity.getBackupEmail().isEmpty()) {
-            String message = String.format("Hello, %s! \n"
-                            + "Welcome to UserAccount. Please visit next link: "
-                            + "http://localhost:8080/activate/%s"
-                            + " \nYour login email: %s \nPassword: %s",
+            String message = String.format(
+                    """
+                        Hello, %s!\s
+                        Welcome to UserAccount. Please visit next link: http://localhost:8080/activate/%s\s
+                        Your login email: %s\s
+                        Password: %s""",
                     entity.getBackupEmail(),
                     entity.getActivationCode(),
                     entity.getAuthEmail(),
                     entity.getPassword()
             );
             entity.setAuthPassword(encoder.encode(entity.getAuthPassword()));
-            mailSenderService.send(entity.getBackupEmail(), "Activation code and credential data", message);
+            mailSenderService.send(entity.getBackupEmail(),
+                    "Activation code and credential data", message);
+        } else {
+            throw new ValidationException("Backup email is empty!");
         }
         return credentialUserRepository.saveAndFlush(entity);
     }
@@ -61,8 +67,10 @@ public record CredentialsUserService(
             String repeatedPassword) {
         if (encoder.matches(oldPassword, entity.getAuthPassword())) {
             if (newPassword.equals(repeatedPassword)) {
-                String message = String.format("Hello, %s! \n"
-                                + "You have changed old password to: %s \n Don't show this message to anyone!",
+                String message
+                        = String.format("Hello, %s! \n"
+                                + "You have changed old password to: %s \n "
+                                + "Don't show this message to anyone!",
                         entity.getAuthEmail(),
                         newPassword);
                 mailSenderService.send(entity.getBackupEmail(), "Changed password", message);
@@ -80,8 +88,13 @@ public record CredentialsUserService(
         return true;
     }
 
+    public CredentialUserEntity getById(long id) {
+        return credentialUserRepository.getById(id);
+    }
+
     public boolean activateUser(String code) {
-        CredentialUserEntity credentialUserEntity = credentialUserRepository.findByActivationCode(code);
+        CredentialUserEntity credentialUserEntity
+                = credentialUserRepository.findByActivationCode(code);
         if (credentialUserEntity == null) {
             return false;
         }

@@ -26,9 +26,9 @@
                 <li sec:authorize="hasAuthority('TEACHER')">
                     <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
                 </li>
-                <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
-                <li sec:authorize="hasAuthority('ADMIN')">
-                    <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                <li><a href="/download" class="nav-link px-2 text-white"
+                       sec:authorize="hasAuthority('SUPER_ADMIN')">Download</a>
+                </li>
                 <li sec:authorize="hasAuthority('ADMIN')">
                     <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
                 </li>
@@ -116,7 +116,6 @@
     </div>
 </form>
 
-
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div class="col-md-4 d-flex align-items-center">
@@ -137,7 +136,8 @@
 
             <li class="ms-3"><a class="text-muted" href="https://www.facebook.com/chpt.edu.ua/">
                 <svg class="bi" width="24" height="24">
-                    <use xlink:href="#facebook"><img src="style/image/facebook.png" alt="Facebook"></use>
+                    <use xlink:href="#facebook"><img th:src="@{/style/image/facebook.png}"
+                                                     alt="Facebook"></use>
                 </svg>
             </a></li>
 

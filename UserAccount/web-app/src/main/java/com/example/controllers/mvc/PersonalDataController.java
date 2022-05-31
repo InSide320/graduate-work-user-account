@@ -3,14 +3,16 @@ package com.example.controllers.mvc;
 import com.example.user.UserPersonalService;
 import com.example.user.credentials.CredentialUserEntity;
 import com.example.user.credentials.CredentialsUserService;
-import com.example.user.details.DetailUserEntity;
 import com.example.user.details.DetailsUserService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
@@ -37,7 +39,8 @@ public class PersonalDataController {
     public String personalInformationAboutTheUser(
             Model model,
             @AuthenticationPrincipal CredentialUserEntity credentialUserEntity) {
-        model.addAttribute("getAuthorizedUser", userPersonalService.getUserById(credentialUserEntity.getId()));
+        model.addAttribute("getAuthorizedUser",
+                userPersonalService.getUserById(credentialUserEntity.getId()));
         return "personal-data";
     }
 

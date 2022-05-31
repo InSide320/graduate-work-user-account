@@ -28,9 +28,8 @@
                     <li sec:authorize="hasAuthority('TEACHER')">
                         <a href="/change-data" class="nav-link px-2 text-secondary">Сhange data</a>
                     </li>
-                    <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
-                    <li sec:authorize="hasAuthority('ADMIN')">
-                        <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                    <li><a href="/download" class="nav-link px-2 text-white"
+                           sec:authorize="hasAuthority('SUPER_ADMIN')">Download</a></li>
                     <li sec:authorize="hasAuthority('ADMIN')">
                         <a href="/admin" class="nav-link px-2 text-white">Admin panel</a>
                     </li>
@@ -84,27 +83,27 @@
 
             <div th:case="'TEACHER'" sec:authorize="hasAuthority('ADMIN')">
 
-                <label th:for="${credentialUser.roleType.STUDENT}"sec:authorize="hasAuthority('ADMIN')">
+                <label th:for="${credentialUser.roleType.STUDENT}" sec:authorize="hasAuthority('ADMIN')">
                     <input type="radio" th:id="${credentialUser.roleType.STUDENT}" name="role-type"
-                           value="STUDENT" >
+                           value="STUDENT">
                     STUDENT
                 </label>
 
-                <label th:for="${credentialUser.roleType.TEACHER}"sec:authorize="hasAuthority('ADMIN')">
+                <label th:for="${credentialUser.roleType.TEACHER}" sec:authorize="hasAuthority('ADMIN')">
                     <input type="radio" th:id="${credentialUser.roleType.TEACHER}" name="role-type"
-                           value="TEACHER" checked >
+                           value="TEACHER" checked>
                     TEACHER
                 </label>
 
-                <label th:for="${credentialUser.roleType.ADMIN}"sec:authorize="hasAuthority('SUPER_ADMIN')">
+                <label th:for="${credentialUser.roleType.ADMIN}" sec:authorize="hasAuthority('SUPER_ADMIN')">
                     <input type="radio" th:id="${credentialUser.roleType.ADMIN}" name="role-type" value="ADMIN"
-                           >
+                    >
                     ADMIN
                 </label>
 
-                <label th:for="${credentialUser.roleType.SUPER_ADMIN}"sec:authorize="hasAuthority('SUPER_ADMIN')">
+                <label th:for="${credentialUser.roleType.SUPER_ADMIN}" sec:authorize="hasAuthority('SUPER_ADMIN')">
                     <input type="radio" th:id="${credentialUser.roleType.SUPER_ADMIN}" name="role-type"
-                           value="SUPER_ADMIN" >
+                           value="SUPER_ADMIN">
                     SUPER_ADMIN
                 </label>
 
@@ -168,8 +167,14 @@
 
 
         <input type="hidden" th:value="${credentialUser.id}" name="userId">
-        <button type="submit">Save</button>
+        <button type="submit" onclick="saveChangeData()">Save</button>
     </form>
+
+    <script>
+        function saveChangeData() {
+            alerts("Your change role!");
+        }
+    </script>
 
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

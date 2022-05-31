@@ -28,9 +28,8 @@
                     <li sec:authorize="hasAuthority('TEACHER')">
                         <a href="/change-data" class="nav-link px-2 text-white">Сhange data</a>
                     </li>
-                    <li><a href="/download" class="nav-link px-2 text-white">Download</a></li>
-                    <li sec:authorize="hasAuthority('ADMIN')">
-                        <a href="/upload" class="nav-link px-2 text-white">Upload</a></li>
+                    <li><a href="/download" class="nav-link px-2 text-white"
+                           sec:authorize="hasAuthority('SUPER_ADMIN')">Download</a></li>
                     <li sec:authorize="hasAuthority('ADMIN')">
                         <a href="/admin" class="nav-link px-2 text-secondary">Admin panel</a>
                     </li>

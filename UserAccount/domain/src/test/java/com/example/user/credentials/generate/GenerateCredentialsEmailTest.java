@@ -1,15 +1,10 @@
 package com.example.user.credentials.generate;
 
+import com.example.exception.ValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,5 +25,18 @@ class GenerateCredentialsEmailTest {
                 + "@chpt.edu.ua").toLowerCase(Locale.ROOT);
         System.out.println("Actual: " + actual + "\n" + "Generated: " + generateEmail);
         assertEquals(generateEmail, actual);
+    }
+
+    @Test
+    @DisplayName("Validation exception by last name")
+    void checkValidationException_whenLastNameNull_thenValidationException() {
+        assertThrows(ValidationException.class,
+                () -> GenerateCredentialsEmail.generateEmail("", "asdasd"));
+    }
+    @Test
+    @DisplayName("Validation exception by first name")
+    void checkValidationException_whenFirstNameNull_thenValidationException() {
+        assertThrows(ValidationException.class,
+                () -> GenerateCredentialsEmail.generateEmail("asdass", ""));
     }
 }

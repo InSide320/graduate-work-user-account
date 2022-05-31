@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = CredentialUserRepository.class)
@@ -98,4 +99,16 @@ class CredentialsUserRepositoryTest {
                 .hasToString(list.get(1).toString());
     }
 
+    @Test
+    @DirtiesContext
+    @DisplayName("Update role type user")
+    void queryUpdateRoleTypeUser_whenInputIdAndNewRoleType_thenEqualUpdateOne() {
+        credentialUserRepository.save(new CredentialUserEntity(
+                "ssd",
+                "sds",
+                RoleType.STUDENT,
+                "sds"));
+        AssertionsForClassTypes.assertThat(1)
+                .isEqualTo(credentialUserRepository.updateRoleTypeUser(1, RoleType.TEACHER));
+    }
 }

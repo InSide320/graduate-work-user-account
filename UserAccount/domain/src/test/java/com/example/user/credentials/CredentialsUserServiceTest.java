@@ -56,13 +56,14 @@ class CredentialsUserServiceTest {
     @Test
     @DisplayName("User credentials were found")
     void userCredentials_wereFound() {
-        encoder.encode("sds");
+        CredentialUserEntity credentialUserEntity = new CredentialUserEntity(
+                "email",
+                "password",
+                RoleType.STUDENT,
+                null);
+        credentialUserEntity.setActivationCode("hey");
         credentialsUserService.save(
-                new CredentialUserEntity(
-                        "email",
-                        "password",
-                        RoleType.STUDENT,
-                        null)
+                credentialUserEntity
         );
         AssertionsForClassTypes.assertThat(credentialsUserService.findAll().toString())
                 .hasToString(
@@ -93,6 +94,7 @@ class CredentialsUserServiceTest {
     }
 
     @Test
+    @DirtiesContext
     @DisplayName("Object has to string and equals new entity to string")
     void getCredentialUsers_whenSetDataEntity_thenHasToStringAndEqualsNewEntityToString() {
         credentialsUserService

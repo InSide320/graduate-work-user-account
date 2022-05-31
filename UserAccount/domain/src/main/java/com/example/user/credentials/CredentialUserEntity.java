@@ -33,7 +33,6 @@ public class CredentialUserEntity implements UserDetails, Serializable {
                 + ", authPassword='" + authPassword + '\'' + "\n"
                 + ", roleType=" + roleType + "\t"
                 + ", backupEmail='" + backupEmail + '\'' + "\n"
-                + ", activationCode='" + activationCode + '\'' + "\n"
                 + '}';
     }
 

@@ -1,5 +1,6 @@
 package com.example.controllers.handler;
 
+import com.example.exception.MessageException;
 import com.example.exception.NotFoundException;
 import com.example.exception.ValidationException;
 import org.slf4j.Logger;
@@ -34,5 +35,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {MissingPathVariableException.class})
     protected void handlerMissingPathVariableException(MissingPathVariableException e) {
         logger.debug(e.getMessage(), e, HttpStatus.NOT_FOUND, ZonedDateTime.now());
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Message bad request")
+    @ExceptionHandler(value = {MessageException.class})
+    protected void handlerMessageException(MessageException e) {
+        logger.debug(e.getMessage(), e, HttpStatus.BAD_REQUEST, ZonedDateTime.now());
     }
 }

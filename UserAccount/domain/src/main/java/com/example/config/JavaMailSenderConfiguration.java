@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 @Configuration
@@ -41,5 +42,10 @@ public class JavaMailSenderConfiguration {
         properties.setProperty("mail.smtp.ssl.trust", host);
 
         return mailSender;
+    }
+
+    @Bean
+    public MimeMessage mimeMessage() {
+        return sender().createMimeMessage();
     }
 }

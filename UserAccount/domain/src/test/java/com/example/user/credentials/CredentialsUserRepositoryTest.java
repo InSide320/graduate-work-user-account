@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = CredentialUserRepository.class)

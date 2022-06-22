@@ -1,1 +1,0 @@
-web: java -jar target/graduate-work-user-account-1.0-SNAPSHOT.jar

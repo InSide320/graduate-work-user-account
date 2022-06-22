@@ -9,14 +9,12 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "student_entrance_scores")
 public class EstimatesEntity {
     @Id
     @Column(name = "id", nullable = false)
     @Setter(AccessLevel.PROTECTED)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ToString.Exclude
     private Long id;
     @Column(name = "ukrainian_language")
     Integer ukrainianLanguage;

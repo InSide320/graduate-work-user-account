@@ -36,6 +36,9 @@ tasks.withType(Checkstyle) {
 dependencies {
 }
 
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+
 test {
     useJUnitPlatform()
 }

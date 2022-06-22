@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '2.7.0'
 }
 
 group 'org.example'
@@ -9,7 +10,21 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    manifest {
+        attributes 'Start-Class': 'com.example.DemoApplication'
+    }
+}
+
+springBoot {
+    setMainClass('com.example.DemoApplication')
+}
+
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.7.0'
+
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
     implementation 'org.springframework.boot:spring-boot-devtools:2.6.7'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
@@ -32,7 +47,6 @@ dependencies {
 
     implementation project(':UserAccount:domain')
     implementation project(':UserAccount:persistence')
-
 }
 
 test {

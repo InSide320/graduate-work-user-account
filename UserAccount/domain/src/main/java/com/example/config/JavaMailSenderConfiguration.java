@@ -38,6 +38,7 @@ public class JavaMailSenderConfiguration {
         Properties properties = mailSender.getJavaMailProperties();
         properties.setProperty("mail.smtp.auth", smtp);
         properties.setProperty("mail.smtp.starttls.enable", starttls);
+        debug = "false";
         properties.setProperty("mail.debug", debug);
         properties.setProperty("mail.smtp.ssl.trust", host);
 

@@ -32,7 +32,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+        uses: gradle/wrapper-validation-action@55e685c48d84285a5b0418cd094606e199cca3b6
 
       - name: Build with Gradle
         run: ./gradlew assemble
@@ -48,7 +48,7 @@ jobs:
           distribution: 'temurin'
 
       - run: chmod +x gradlew
-      - uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      - uses: gradle/wrapper-validation-action@55e685c48d84285a5b0418cd094606e199cca3b6
 
       - name: Verify checkstyle
         run: ./gradlew checkstyleMain
@@ -64,7 +64,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - run: chmod +x gradlew
-      - uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      - uses: gradle/wrapper-validation-action@55e685c48d84285a5b0418cd094606e199cca3b6
 
       - name: Werify test
         run: ./gradlew test
